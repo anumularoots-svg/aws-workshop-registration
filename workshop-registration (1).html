@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register — 7 Days AWS Workshop | AnilCloudLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0d14;
+      --card: #111520;
+      --card2: #161c2e;
+      --border: #1e2a45;
+      --accent: #ff6b2b;
+      --accent2: #ffb347;
+      --blue: #3b82f6;
+      --text: #e8edf5;
+      --muted: #7a8aaa;
+      --success: #22c55e;
+      --aws: #ff9900;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse, rgba(255,153,0,0.10) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      background: rgba(10,13,20,0.93);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 1100px; margin: auto;
+      padding: 13px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 20px;
+      color: var(--text); text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    .header-badge {
+      background: linear-gradient(135deg, #ff9900, #ffb347);
+      color: #000; font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 12px;
+      padding: 5px 13px; border-radius: 20px;
+    }
+
+    .hero {
+      max-width: 860px; margin: 0 auto;
+      padding: 52px 24px 28px;
+      text-align: center; position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,153,0,0.1);
+      border: 1px solid rgba(255,153,0,0.3);
+      color: var(--aws); font-size: 12px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 20px; margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(26px, 5vw, 46px);
+      font-weight: 700; line-height: 1.15; margin-bottom: 12px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(90deg, #ff9900, #ffb347);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      color: var(--muted); font-size: 15px;
+      max-width: 580px; margin: 0 auto 10px; line-height: 1.6;
+    }
+    .trust-pill {
+      display: inline-block;
+      background: rgba(255,107,43,0.08);
+      border: 1px solid rgba(255,107,43,0.2);
+      color: #ffa07a; font-size: 12px;
+      padding: 5px 14px; border-radius: 20px; margin: 6px 0 20px;
+    }
+    .hero-stats {
+      display: flex; justify-content: center;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .hero-stat {
+      display: flex; align-items: center; gap: 7px;
+      background: var(--card); border: 1px solid var(--border);
+      padding: 8px 14px; border-radius: 30px;
+      font-size: 13px; color: var(--text);
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dot.g { background: var(--success); box-shadow: 0 0 6px var(--success); }
+    .dot.o { background: var(--aws);     box-shadow: 0 0 6px var(--aws); }
+    .dot.b { background: var(--blue);    box-shadow: 0 0 6px var(--blue); }
+
+    .schedule-strip {
+      max-width: 860px; margin: 32px auto 28px;
+      padding: 0 24px; position: relative; z-index: 1;
+    }
+    .strip-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 11px;
+    }
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 9px;
+    }
+    .sched-item {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 13px;
+      display: flex; align-items: flex-start; gap: 10px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .sched-item:hover { border-color: rgba(255,153,0,0.35); transform: translateY(-2px); }
+    .day-badge {
+      background: linear-gradient(135deg, #ff9900, #d07000);
+      color: #fff; font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px; font-weight: 700;
+      padding: 3px 8px; border-radius: 5px;
+      flex-shrink: 0; margin-top: 2px; white-space: nowrap;
+    }
+    .sched-text { font-size: 12px; color: var(--text); line-height: 1.4; }
+    .sched-text strong { font-size: 13px; display: block; margin-bottom: 1px; }
+
+    .roadmap-banner {
+      max-width: 860px; margin: 0 auto 28px;
+      padding: 0 24px; position: relative; z-index: 1;
+    }
+    .roadmap-box {
+      background: linear-gradient(135deg, rgba(59,130,246,0.07), rgba(255,153,0,0.05));
+      border: 1px solid rgba(59,130,246,0.22);
+      border-radius: 14px; padding: 20px 22px;
+    }
+    .roadmap-box h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px; font-weight: 700;
+      color: #93c5fd; margin-bottom: 13px;
+    }
+    .roadmap-phases {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 10px; margin-bottom: 13px;
+    }
+    .phase {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 9px; padding: 11px 12px;
+    }
+    .phase-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--aws); margin-bottom: 4px;
+    }
+    .phase-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px;
+    }
+    .phase-tags { font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .roadmap-cta { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .roadmap-cta strong { color: #93c5fd; }
+
+    .main {
+      max-width: 860px; margin: 0 auto;
+      padding: 0 24px 60px; position: relative; z-index: 1;
+    }
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    }
+    .full-card { grid-column: 1 / -1; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+    }
+    .card-header {
+      background: var(--card2); border-bottom: 1px solid var(--border);
+      padding: 16px 22px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px; font-weight: 600;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .icon {
+      width: 30px; height: 30px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center; font-size: 15px;
+    }
+    .i-o { background: rgba(255,107,43,0.15); }
+    .i-b { background: rgba(59,130,246,0.15); }
+    .i-g { background: rgba(34,197,94,0.15);  }
+    .i-a { background: rgba(255,153,0,0.15);  }
+    .card-body { padding: 20px 22px; }
+
+    .field { margin-bottom: 15px; }
+    .field label {
+      display: block; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.6px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 9px; color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 14px;
+      padding: 11px 13px; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--aws); background: rgba(255,153,0,0.04);
+    }
+    .field input::placeholder, .field textarea::placeholder { color: #3a4560; }
+    .field select option { background: #0a0d14; color: var(--text); }
+    .field textarea { resize: vertical; min-height: 70px; }
+
+    .check-group { display: flex; flex-direction: column; gap: 9px; }
+    .check-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .check-item input[type="checkbox"] {
+      width: 16px; height: 16px;
+      border: 1px solid var(--border); border-radius: 4px;
+      background: rgba(255,255,255,0.04);
+      accent-color: var(--aws); cursor: pointer;
+      flex-shrink: 0; padding: 0;
+    }
+    .check-item span { font-size: 13px; color: var(--text); }
+
+    .payment-box {
+      background: linear-gradient(135deg, rgba(255,153,0,0.07), rgba(255,107,43,0.04));
+      border: 1px solid rgba(255,153,0,0.22);
+      border-radius: 12px; padding: 17px 18px; margin-bottom: 15px;
+    }
+    .payment-box h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px; font-weight: 600; color: var(--aws);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 7px;
+    }
+    .pay-row {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 10px; margin-bottom: 8px;
+    }
+    .pay-label { font-size: 12px; color: var(--muted); }
+    .pay-value { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); }
+    .pay-value.big {
+      font-size: 22px;
+      background: linear-gradient(90deg, var(--aws), #ffb347);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .upi-box {
+      background: rgba(59,130,246,0.07);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 8px; padding: 10px 13px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; margin-top: 10px;
+    }
+    .upi-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px; font-weight: 700; color: #60a5fa; letter-spacing: 1px;
+    }
+    .copy-btn {
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.25);
+      color: #60a5fa; font-size: 12px; font-weight: 600;
+      padding: 5px 11px; border-radius: 6px; cursor: pointer;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .copy-btn:hover { background: rgba(59,130,246,0.22); }
+    .pay-name { font-size: 12px; color: var(--muted); margin-top: 7px; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 17px 0; }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #25d366, #1aab52);
+      border: none; border-radius: 11px; color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px; font-weight: 700;
+      padding: 15px 24px; cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 4px;
+    }
+    .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .submit-note {
+      text-align: center; font-size: 12px; color: var(--muted); margin-top: 9px;
+    }
+
+    #success-msg {
+      display: none;
+      background: rgba(37,211,102,0.07);
+      border: 1px solid rgba(37,211,102,0.25);
+      border-radius: 12px; padding: 26px; text-align: center; margin-top: 14px;
+    }
+    #success-msg .check-circle {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(37,211,102,0.12); border: 2px solid #25d366;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin: 0 auto 14px;
+    }
+    #success-msg h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px; font-weight: 600; color: #25d366; margin-bottom: 7px;
+    }
+    #success-msg p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .steps { display: flex; flex-direction: column; gap: 11px; }
+    .step { display: flex; align-items: flex-start; gap: 11px; }
+    .step-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #d04000);
+      color: #fff; font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .step-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .step-text strong { color: var(--text); display: block; }
+
+    .wa-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%;
+      background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.28);
+      border-radius: 11px; color: #25d366;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px; font-weight: 600;
+      padding: 12px 18px; text-decoration: none; margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .wa-btn:hover { background: rgba(37,211,102,0.18); }
+
+    #toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--card2); border: 1px solid var(--border);
+      color: var(--text); font-size: 13px;
+      padding: 10px 18px; border-radius: 9px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s; z-index: 999;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    .req { color: var(--accent); }
+
+    @media(max-width:660px){ .two-col { grid-template-columns: 1fr; } }
+    @media(max-width:480px){
+      .schedule-grid { grid-template-columns: 1fr 1fr; }
+      .roadmap-phases { grid-template-columns: 1fr; gap: 7px; }
+      .hero, .schedule-strip, .roadmap-banner, .main { padding-left: 16px; padding-right: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="https://anilcloudlab.netlify.app/" class="logo">Anil<span>Cloud</span>Lab</a>
+    <div class="header-badge">☁️ AWS Workshop · Rs.499/-</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">☁️ Live Online · 25 May – 31 May · 8–9 PM IST</div>
+  <h1>7 Days <span class="highlight">AWS Services</span><br>Hands-On Workshop</h1>
+  <p class="hero-sub">Learn the core AWS services that every DevOps Engineer uses daily — in just 7 live sessions. Practical. Real. Job-relevant.</p>
+  <div class="trust-pill">🎯 This workshop is your first step toward a full DevOps career</div>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="dot g"></span> 7 Live Sessions</div>
+    <div class="hero-stat"><span class="dot o"></span> AWS Core Services</div>
+    <div class="hero-stat"><span class="dot b"></span> Limited Seats · Rs.499 Only</div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<div class="schedule-strip">
+  <p class="strip-title">☁️ 7-Day AWS Coverage — Services needed for DevOps Role</p>
+  <div class="schedule-grid">
+    <div class="sched-item">
+      <div class="day-badge">DAY 1</div>
+      <div class="sched-text"><strong>AWS Fundamentals</strong>IAM · Regions · AZs · Global Infra · Security</div>
+    </div>
+    <div class="sched-item">
+      <div class="day-badge">DAY 2</div>
+      <div class="sched-text"><strong>EC2 + VPC</strong>Instances · Subnets · Security Groups · Route Tables</div>
+    </div>
+    <div class="sched-item">
+      <div class="day-badge">DAY 3</div>
+      <div class="sched-text"><strong>S3 + Storage</strong>Buckets · Versioning · Static Hosting · Lifecycle</div>
+    </div>
+    <div class="sched-item">
+      <div class="day-badge">DAY 4</div>
+      <div class="sched-text"><strong>CodeCommit + CodeBuild</strong>Source Control &amp; Build Automation on AWS</div>
+    </div>
+    <div class="sched-item">
+      <div class="day-badge">DAY 5</div>
+      <div class="sched-text"><strong>CodeDeploy + CodePipeline</strong>Full CI/CD Pipeline End-to-End on AWS</div>
+    </div>
+    <div class="sched-item">
+      <div class="day-badge">DAY 6</div>
+      <div class="sched-text"><strong>CloudWatch + ELB + ASG</strong>Monitoring · Load Balancing · Auto Scaling</div>
+    </div>
+    <div class="sched-item">
+      <div class="day-badge">DAY 7</div>
+      <div class="sched-text"><strong>DevOps Roadmap + Preview</strong>Career path · Certs · 90-Day Course Overview</div>
+    </div>
+  </div>
+</div>
+
+<!-- 90-DAY ROADMAP BANNER -->
+<div class="roadmap-banner">
+  <div class="roadmap-box">
+    <h3>🚀 Want the Full DevOps Career? — 90-Day Master Course (After This Workshop)</h3>
+    <div class="roadmap-phases">
+      <div class="phase">
+        <div class="phase-label">Month 1</div>
+        <div class="phase-title">Foundation</div>
+        <div class="phase-tags">Linux · Git · Bash · Networking · Python Basics</div>
+      </div>
+      <div class="phase">
+        <div class="phase-label">Month 2</div>
+        <div class="phase-title">Cloud + Containers</div>
+        <div class="phase-tags">Docker · Kubernetes · Helm · AWS Core · Terraform</div>
+      </div>
+      <div class="phase">
+        <div class="phase-label">Month 3</div>
+        <div class="phase-title">CI/CD + Monitoring</div>
+        <div class="phase-tags">Jenkins · GitHub Actions · Prometheus · Grafana · SRE</div>
+      </div>
+    </div>
+    <div class="roadmap-cta">
+      💡 This 7-day AWS workshop builds your foundation &amp; trust — see how we teach before committing to the full course.
+      <strong>&nbsp;Full 90-Day Course → Rs.40,000/- | 1:1 Mentorship | Job Assistance | Limited Batch</strong>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="two-col">
+
+    <!-- FORM -->
+    <div class="card full-card">
+      <div class="card-header">
+        <div class="icon i-a">📝</div>
+        Register for the AWS Workshop — Rs.499/-
+      </div>
+      <div class="card-body">
+        <form id="reg-form" novalidate>
+          <div class="two-col">
+            <div>
+              <div class="field">
+                <label>Full Name <span class="req">*</span></label>
+                <input type="text" id="fullname" placeholder="Your full name" required />
+              </div>
+              <div class="field">
+                <label>Mobile Number <span class="req">*</span></label>
+                <input type="tel" id="mobile" placeholder="+91 98765 43210" required />
+              </div>
+              <div class="field">
+                <label>Email Address <span class="req">*</span></label>
+                <input type="email" id="email" placeholder="you@example.com" required />
+              </div>
+            </div>
+            <div>
+              <div class="field">
+                <label>Current Background</label>
+                <select id="background">
+                  <option value="">Select background</option>
+                  <option>Fresh Graduate</option>
+                  <option>IT Professional (Non-DevOps)</option>
+                  <option>Non-IT Professional</option>
+                  <option>Career Gap / Break</option>
+                  <option>Student</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Experience Level</label>
+                <select id="experience">
+                  <option value="">Select experience</option>
+                  <option>0 – No experience</option>
+                  <option>0–1 Year</option>
+                  <option>1–3 Years</option>
+                  <option>3–5 Years</option>
+                  <option>5+ Years</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>State / City</label>
+                <input type="text" id="location" placeholder="Hyderabad, Telangana" />
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <div class="field">
+            <label>Which AWS topics interest you most? <span class="req">*</span></label>
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox" value="IAM and Security" /><span>IAM, Roles &amp; Security Best Practices</span></label>
+              <label class="check-item"><input type="checkbox" value="EC2 and VPC" /><span>EC2 Instances &amp; VPC Networking</span></label>
+              <label class="check-item"><input type="checkbox" value="S3 and Storage" /><span>S3 Buckets, Storage &amp; Static Hosting</span></label>
+              <label class="check-item"><input type="checkbox" value="CodeCommit and CodeBuild" /><span>CodeCommit &amp; CodeBuild (CI)</span></label>
+              <label class="check-item"><input type="checkbox" value="CodeDeploy and CodePipeline" /><span>CodeDeploy &amp; CodePipeline (Full CD)</span></label>
+              <label class="check-item"><input type="checkbox" value="CloudWatch Monitoring" /><span>CloudWatch, Logs, Metrics &amp; Alarms</span></label>
+              <label class="check-item"><input type="checkbox" value="ELB and Auto Scaling" /><span>Elastic Load Balancer &amp; Auto Scaling</span></label>
+              <label class="check-item"><input type="checkbox" value="Full DevOps 90-Day Course" /><span>🚀 Interested in Full 90-Day DevOps Course</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Your goal / any question? (optional)</label>
+            <textarea id="goals" placeholder="E.g. I want to become a DevOps Engineer, crack AWS SAA, or switch from manual testing..."></textarea>
+          </div>
+
+          <hr class="divider" />
+
+          <div class="payment-box">
+            <h4>💳 Payment — Rs.499/- Only</h4>
+            <div class="pay-row">
+              <span class="pay-label">Workshop Fee</span>
+              <span class="pay-value big">Rs.499/-</span>
+            </div>
+            <div class="pay-row">
+              <span class="pay-label">Payment Method</span>
+              <span class="pay-value">PhonePe / Any UPI</span>
+            </div>
+            <div class="upi-box">
+              <div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">PhonePe / UPI Number</div>
+                <div class="upi-number">+91 99859 33964</div>
+              </div>
+              <button type="button" class="copy-btn" onclick="copyUPI()">Copy</button>
+            </div>
+            <div class="pay-name">📛 Pay to: <strong style="color:var(--text)">Anil Kumar Anumulasetty</strong></div>
+          </div>
+
+          <div class="field">
+            <label>UPI / Transaction ID <span class="req">*</span></label>
+            <input type="text" id="txid" placeholder="e.g. T2505251234ABCD (from PhonePe receipt)" required />
+          </div>
+
+          <div class="field">
+            <label>How did you hear about this?</label>
+            <select id="source">
+              <option value="">Select source</option>
+              <option>WhatsApp</option>
+              <option>Instagram</option>
+              <option>LinkedIn</option>
+              <option>Friend / Colleague</option>
+              <option>AnilCloudLab Website</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            📲 Submit &amp; Send to WhatsApp
+          </button>
+          <p class="submit-note">Form details are sent directly to Anil on WhatsApp for instant confirmation ✅</p>
+        </form>
+
+        <div id="success-msg">
+          <div class="check-circle">✅</div>
+          <h3>Registration Sent to WhatsApp!</h3>
+          <p>WhatsApp is opening with your details pre-filled for Anil.<br>
+          Please also <strong style="color:var(--text)">attach your payment screenshot</strong> in that WhatsApp chat to confirm your seat. 🙌</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO REGISTER -->
+    <div class="card">
+      <div class="card-header">
+        <div class="icon i-b">💡</div>
+        How to Register
+      </div>
+      <div class="card-body">
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Fill the form above</strong>Name, mobile, email &amp; select AWS topics</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Pay Rs.499/- via PhonePe / UPI</strong>Number: <span style="color:#60a5fa;font-weight:600">+91-9985933964</span><br>Name: <span style="color:var(--text);font-weight:600">Anil Kumar Anumulasetty</span></div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Enter Transaction ID &amp; Submit</strong>Your full details go to Anil's WhatsApp instantly</div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Attach payment screenshot in WhatsApp chat</strong>Seat confirmed after Anil verifies! ✅</div>
+          </div>
+        </div>
+        <hr class="divider" />
+        <a href="https://wa.me/919392547028" target="_blank" class="wa-btn">
+          💬 WhatsApp Anil: 9392547028
+        </a>
+      </div>
+    </div>
+
+    <!-- WHAT YOU GET -->
+    <div class="card">
+      <div class="card-header">
+        <div class="icon i-g">🎁</div>
+        What's Included
+      </div>
+      <div class="card-body">
+        <div class="steps">
+          <div class="step">
+            <div class="step-num" style="background:linear-gradient(135deg,#22c55e,#16a34a)">✓</div>
+            <div class="step-text"><strong>7 Live AWS Sessions</strong>8–9 PM IST, 25–31 May 2025</div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:linear-gradient(135deg,#22c55e,#16a34a)">✓</div>
+            <div class="step-text"><strong>Hands-on AWS Labs</strong>Real setup: EC2, S3, IAM, CodePipeline, CloudWatch</div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:linear-gradient(135deg,#22c55e,#16a34a)">✓</div>
+            <div class="step-text"><strong>Session Recordings</strong>Revisit any session anytime</div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:linear-gradient(135deg,#22c55e,#16a34a)">✓</div>
+            <div class="step-text"><strong>DevOps Career Roadmap</strong>Day 7 — Certs, Salary &amp; full career path</div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:linear-gradient(135deg,#22c55e,#16a34a)">✓</div>
+            <div class="step-text"><strong>90-Day Course Preview on Day 7</strong>See everything before you decide to enroll</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast">✅ UPI number copied!</div>
+
+<script>
+  function copyUPI() {
+    navigator.clipboard.writeText('+919985933964').then(() => {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    });
+  }
+
+  document.getElementById('reg-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name  = document.getElementById('fullname').value.trim();
+    const mob   = document.getElementById('mobile').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const txid  = document.getElementById('txid').value.trim();
+
+    if (!name) { alert('Please enter your Full Name.'); return; }
+    if (!mob)  { alert('Please enter your Mobile Number.'); return; }
+    if (!email){ alert('Please enter your Email Address.'); return; }
+    if (!txid) { alert('Please enter your UPI / Transaction ID after making the payment.'); return; }
+
+    const bg     = document.getElementById('background').value || 'Not specified';
+    const exp    = document.getElementById('experience').value || 'Not specified';
+    const loc    = document.getElementById('location').value.trim() || 'Not specified';
+    const src    = document.getElementById('source').value || 'Not specified';
+    const goals  = document.getElementById('goals').value.trim() || 'None';
+    const topics = [...document.querySelectorAll('.check-group input:checked')]
+                     .map(c => c.value).join(', ') || 'Not selected';
+
+    const msg =
+`🙏 *New Workshop Registration — AnilCloudLab*
+━━━━━━━━━━━━━━━━━━━━━━
+👤 *Name:* ${name}
+📱 *Mobile:* ${mob}
+📧 *Email:* ${email}
+🏙 *Location:* ${loc}
+🎓 *Background:* ${bg}
+💼 *Experience:* ${exp}
+━━━━━━━━━━━━━━━━━━━━━━
+☁️ *AWS Topics Interested In:*
+${topics}
+━━━━━━━━━━━━━━━━━━━━━━
+💳 *UPI / Txn ID:* ${txid}
+📣 *Heard via:* ${src}
+💬 *Goal / Question:* ${goals}
+━━━━━━━━━━━━━━━━━━━━━━
+📌 *Workshop:* 7 Days AWS · 25–31 May · Rs.499/-
+✅ Kindly confirm seat after verifying payment screenshot.`;
+
+    const waURL = 'https://wa.me/919392547028?text=' + encodeURIComponent(msg);
+
+    // Show success state
+    document.getElementById('reg-form').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+
+    // Open WhatsApp with all details pre-filled
+    setTimeout(function() { window.open(waURL, '_blank'); }, 400);
+  });
+</script>
+</body>
+</html>
